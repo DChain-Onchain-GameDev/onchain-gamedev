@@ -30,7 +30,7 @@ export type PivotContext = {
 export const context = React.createContext<PivotContext>(null!)
 
 const isRef = (object: any): object is React.MutableRefObject<THREE.Object3D> => object && object.current
-export const resolveObject = (
+export const resolveObject : any = (
   object?: THREE.Object3D | React.MutableRefObject<THREE.Object3D>,
   fallback?: THREE.Object3D | React.MutableRefObject<THREE.Object3D>
 ) => (isRef(object) ? object.current : object ? object : fallback ? resolveObject(fallback) : undefined)

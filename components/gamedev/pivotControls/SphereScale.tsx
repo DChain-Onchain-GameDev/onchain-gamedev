@@ -40,6 +40,7 @@ export const SphereScale: React.FC<{ direction: THREE.Vector3; axis: 0 | 1 | 2 }
     onDrag,
     onDragEnd,
     userData,
+    // @ts-ignore
     object
   } = React.useContext(context)
 

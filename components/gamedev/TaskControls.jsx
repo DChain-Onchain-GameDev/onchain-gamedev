@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { GlobalContext, GlobalContextProvider } from './GlobalContext.jsx'
 
 
-const TaskControls = ({ stateEnv, setStateEnv }) => {
+const TaskControls = () => {
   const { state, dispatch } = useContext(GlobalContext);
   const { objectMaster } = state;
 

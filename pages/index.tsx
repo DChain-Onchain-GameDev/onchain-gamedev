@@ -20,8 +20,8 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import Image from 'next/image';
 import { ethers } from "ethers";
-import GameFactory from "../contracts/GameFactory.json";
-import ContractAddress from "../contracts/contract-address.json";
+import DchainGameFactory from "../contracts/DchainGameFactory.json";
+import ContractAddress from "../contracts/contractaddr.json";
 
 import objJSON from "../components/gamedev/objectMaster.json";
 import UploadModel from "../components/UploadModel";
@@ -87,7 +87,7 @@ function Scene() {
   const { objectMaster, currentObjectIdentifer, assetMaster } = state;
 
   // Load Object Master
-  const LoadObjectMaster = (file) => {
+  const LoadObjectMaster = (file : any) => {
     file.map((object) => {
       if (object.type === "object") {
         const AddAction = {
@@ -193,7 +193,7 @@ function Scene() {
   };
 
   // Function to handle file upload
-  const handleFileUpload = (event) => {
+  const handleFileUpload = (event : any) => {
     const file = event.target.files[0];
     const reader = new FileReader();
 
@@ -238,8 +238,8 @@ function Scene() {
       });
 
       const factoryContract_ = new ethers.Contract(
-        ContractAddress.GameFactory,
-        GameFactory.abi,
+        ContractAddress.DchainGameFactory,
+        DchainGameFactory.abi,
         signer
       );
       setFactoryContract(factoryContract_);
