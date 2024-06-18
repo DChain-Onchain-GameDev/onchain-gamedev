@@ -40,7 +40,7 @@ body {
     )
     rgb(var(--background-start-rgb));
   margin: 0;
-  padding: 24px;
+  padding: 24px 0px;
 }
 
 @layer utilities {

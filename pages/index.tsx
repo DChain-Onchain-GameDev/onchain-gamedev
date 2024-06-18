@@ -383,10 +383,10 @@ function Scene() {
 
   return (
     <div className="flex flex-row">
-      <div className="row m-0 overflow-auto">
+      <div className="row m-0 overflow-auto w-[30%]">
         <div
           className={
-            "d-flex flex-column p-0 m-0 vh-100 " +
+            "d-flex flex-column p-0 m-0 " +
             (panelClass == "col-3" ? "col-9" : "col-12")
           }
         >
@@ -580,7 +580,7 @@ function Scene() {
       </div>
 
       <div
-        className='w-100 flex-1 fixed right-0'
+        className='w-[70%] flex-1 fixed right-0'
         style={{ height: height === "30vh" ? "70vh" : "100vh" }}>
         <Canvas
           shadows
