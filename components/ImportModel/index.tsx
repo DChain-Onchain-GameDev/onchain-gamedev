@@ -1,8 +1,6 @@
 // @ts-nocheck
-import { client, selectSp } from '@/client';
 import { useContext, useState } from 'react';
 import { useAccount } from 'wagmi';
-import { ReedSolomon } from '@bnb-chain/reed-solomon';
 import { GlobalContext } from '../gamedev/GlobalContext.jsx';
 import * as THREE from 'three'
 import axios from 'axios';
@@ -91,8 +89,6 @@ export const ImportModel = () => {
                     className="button is-primary me-1"
                     onClick={async () => {
                       if (!address || !info.file) return;
-
-                      const spInfo = await selectSp();
 
                       try {
                         const file = new Blob([info.file], {
