@@ -382,8 +382,8 @@ function Scene() {
   };
 
   return (
-    <div className="d-flex flex-column">
-      <div className="row m-0 w-100 overflow-auto">
+    <div className="flex flex-row">
+      <div className="row m-0 overflow-auto">
         <div
           className={
             "d-flex flex-column p-0 m-0 vh-100 " +
@@ -408,9 +408,7 @@ function Scene() {
                 </h3>
               </div>
             </div>
-          </div>
-
-          <div className='flex flex-row'>
+            <div className="col-3"></div>
             <div className="col-6 text-end">
               <div className="m-0" style={{ padding: "1.5px" }}>
                 <input
@@ -476,91 +474,8 @@ function Scene() {
                 </button>
               </div>
             </div>
-            <div
-              className='px-[24px] flex-1'
-              style={{ height: height === "300px" ? "400px" : "500px" }}>
-              <Canvas
-                shadows
-                raycaster={{ params: { Line: { threshold: 0.15 } } }}
-                camera={{ position: [-10, 10, 10], fov: 30 }}
-                id="objectScene"
-              >
-                <color attach="background" args={[objectMaster[0].sky_color]} />
-                <>
-                  <Grid
-                    args={[500, 500]}
-                    cellSize={1}
-                    sectionSize={5}
-                    cellColor={"yellow"}
-                    sectionThickness={1}
-                    cellThickness={0.5}
-
-                  />
-                  <mesh position={[0, 1, 0]}>
-                    <cylinderGeometry args={[0.5, 0.5, 1.5]} />
-                    <Outlines thickness={0.05} color="hotpink" />
-                    <meshNormalMaterial color={"green"} />
-                  </mesh>
-
-                  <ambientLight intensity={objectMaster[0].ambient_light} />
-                  {objectMaster.map((object) => {
-                    if (object.type === "object")
-                      return (
-                        <Model
-                          assetIdentifer={object.assetIdentifier}
-                          assetLink={object.assetLink}
-                          collision={object.collision}
-                          fixed={object.fixed}
-                          worldMatrix={object.worldMatrix}
-                          scaleFactor={object.scaleFactor}
-                          scaleFactorPivot={object.scaleFactorPivot}
-                        />
-                      );
-                    else return <></>;
-                  })}
-                </>
-
-                {objectMaster.map((object) => {
-                  if (object.type === "light")
-                    return (
-                      <>
-                        <Sphere
-                          scale={0.2}
-                          position={[
-                            object.position.x,
-                            object.position.y,
-                            object.position.z,
-                          ]}
-                        >
-                          <meshStandardMaterial color={object.color} />
-                        </Sphere>
-                        <pointLight
-                          key={object.assetIdentifier}
-                          position={[
-                            object.position.x,
-                            object.position.y,
-                            object.position.z,
-                          ]}
-                          intensity={object.intensity}
-                          color={object.color}
-                        />
-                      </>
-                    );
-                  else return <></>;
-                })}
-
-                <mesh scale={30} receiveShadow rotation={[-Math.PI / 2, 0, 0]}>
-                  <planeGeometry />
-                  <shadowMaterial transparent opacity={0.2} />
-                </mesh>
-
-                <GizmoHelper alignment="bottom-right" margin={[100, 100]}>
-                  <GizmoViewport labelColor="white" axisHeadScale={1} />
-                </GizmoHelper>
-                <OrbitControls makeDefault />
-              </Canvas>
-            </div>
           </div>
+
 
           <div
             className="standard-background overflow-auto w-100"
@@ -662,6 +577,90 @@ function Scene() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div
+        className='w-100 flex-1 fixed right-0'
+        style={{ height: height === "30vh" ? "70vh" : "100vh" }}>
+        <Canvas
+          shadows
+          raycaster={{ params: { Line: { threshold: 0.15 } } }}
+          camera={{ position: [-10, 10, 10], fov: 30 }}
+          id="objectScene"
+        >
+          <color attach="background" args={[objectMaster[0].sky_color]} />
+          <>
+            <Grid
+              args={[500, 500]}
+              cellSize={1}
+              sectionSize={5}
+              cellColor={"yellow"}
+              sectionThickness={1}
+              cellThickness={0.5}
+            />
+            <mesh position={[0, 1, 0]}>
+              <cylinderGeometry args={[0.5, 0.5, 1.5]} />
+              <Outlines thickness={0.05} color="hotpink" />
+              <meshNormalMaterial color={"green"} />
+            </mesh>
+
+            <ambientLight intensity={objectMaster[0].ambient_light} />
+            {objectMaster.map((object) => {
+              if (object.type === "object")
+                return (
+                  <Model
+                    assetIdentifer={object.assetIdentifier}
+                    assetLink={object.assetLink}
+                    collision={object.collision}
+                    fixed={object.fixed}
+                    worldMatrix={object.worldMatrix}
+                    scaleFactor={object.scaleFactor}
+                    scaleFactorPivot={object.scaleFactorPivot}
+                  />
+                );
+              else return <></>;
+            })}
+          </>
+
+          {objectMaster.map((object) => {
+            if (object.type === "light")
+              return (
+                <>
+                  <Sphere
+                    scale={0.2}
+                    position={[
+                      object.position.x,
+                      object.position.y,
+                      object.position.z,
+                    ]}
+                  >
+                    <meshStandardMaterial color={object.color} />
+                  </Sphere>
+                  <pointLight
+                    key={object.assetIdentifier}
+                    position={[
+                      object.position.x,
+                      object.position.y,
+                      object.position.z,
+                    ]}
+                    intensity={object.intensity}
+                    color={object.color}
+                  />
+                </>
+              );
+            else return <></>;
+          })}
+
+          <mesh scale={30} receiveShadow rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry />
+            <shadowMaterial transparent opacity={0.2} />
+          </mesh>
+
+          <GizmoHelper alignment="bottom-right" margin={[100, 100]}>
+            <GizmoViewport labelColor="white" axisHeadScale={1} />
+          </GizmoHelper>
+          <OrbitControls makeDefault />
+        </Canvas>
       </div>
     </div>
   );
