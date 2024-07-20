@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useContext, useState } from "react";
 import { GlobalContext } from "./GlobalContext.jsx";
 
-const ObjectControls = ({ stateEnv, setStateEnv }) => {
+const ObjectControls = () => {
   const { state, dispatch } = useContext(GlobalContext);
 
   const { objectMaster, currentObjectIdentifier } = state;
