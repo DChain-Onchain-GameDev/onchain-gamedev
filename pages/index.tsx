@@ -20,8 +20,8 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import Image from 'next/image';
 import { ethers } from "ethers";
-// import GameFactory from "../contracts/GameFactory.json";
-// import ContractAddress from "../contracts/contract-address.json";
+import GameFactory from "../contracts/GameFactory.json";
+import ContractAddress from "../contracts/contract-address.json";
 
 import objJSON from "../components/gamedev/objectMaster.json";
 import UploadModel from "../components/UploadModel";
@@ -237,12 +237,12 @@ function Scene() {
         await web3Handler();
       });
 
-      // const factoryContract_ = new ethers.Contract(
-      //   ContractAddress.GameFactory,
-      //   GameFactory.abi,
-      //   signer
-      // );
-      // setFactoryContract(factoryContract_);
+      const factoryContract_ = new ethers.Contract(
+        ContractAddress.GameFactory,
+        GameFactory.abi,
+        signer
+      );
+      setFactoryContract(factoryContract_);
 
       const { value: gameName } = await Swal.fire({
         title: "Enter Game Name",
