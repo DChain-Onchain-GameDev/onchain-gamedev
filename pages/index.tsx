@@ -20,8 +20,8 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import Image from 'next/image';
 import { ethers } from "ethers";
-import GameFactory from "../contracts/GameFactory.json";
-import ContractAddress from "../contracts/contract-address.json";
+// import GameFactory from "../contracts/GameFactory.json";
+// import ContractAddress from "../contracts/contract-address.json";
 
 import objJSON from "../components/gamedev/objectMaster.json";
 import UploadModel from "../components/UploadModel";
@@ -223,7 +223,7 @@ function Scene() {
       });
       setAccount(accounts[0]);
 
-      await ethereum.request({
+      await window.ethereum.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: networkMap.DCHAINTESTNET.chainId }],
       });
@@ -237,12 +237,12 @@ function Scene() {
         await web3Handler();
       });
 
-      const factoryContract_ = new ethers.Contract(
-        ContractAddress.GameFactory,
-        GameFactory.abi,
-        signer
-      );
-      setFactoryContract(factoryContract_);
+      // const factoryContract_ = new ethers.Contract(
+      //   ContractAddress.GameFactory,
+      //   GameFactory.abi,
+      //   signer
+      // );
+      // setFactoryContract(factoryContract_);
 
       const { value: gameName } = await Swal.fire({
         title: "Enter Game Name",
@@ -382,7 +382,7 @@ function Scene() {
   };
 
   return (
-    <div className="d-flex flex-column vh-100">
+    <div className="d-flex flex-column">
       <div className="row m-0 w-100 overflow-auto">
         <div
           className={
@@ -404,11 +404,13 @@ function Scene() {
                 />
                 <h3 className="text-light">
                   <span className="text-success">Chain</span>
-                  Game DEV
+                  {" "}Game DEV
                 </h3>
               </div>
             </div>
-            <div className="col-3"></div>
+          </div>
+
+          <div className='flex flex-row'>
             <div className="col-6 text-end">
               <div className="m-0" style={{ padding: "1.5px" }}>
                 <input
@@ -474,87 +476,90 @@ function Scene() {
                 </button>
               </div>
             </div>
-          </div>
-          <div style={{ height: height === "30%" ? "70%" : "100%" }}>
-            <Canvas
-              shadows
-              raycaster={{ params: { Line: { threshold: 0.15 } } }}
-              camera={{ position: [-10, 10, 10], fov: 30 }}
-              id="objectScene"
-            >
-              <color attach="background" args={[objectMaster[0].sky_color]} />
-              <>
-                <Grid
-                  args={[500, 500]}
-                  cellSize={1}
-                  sectionSize={5}
-                  cellColor={"yellow"}
-                  sectionThickness={1}
-                  cellThickness={0.5}
-                />
-                <mesh position={[0, 1, 0]}>
-                  <cylinderGeometry args={[0.5, 0.5, 1.5]} />
-                  <Outlines thickness={0.05} color="hotpink" />
-                  <meshNormalMaterial color={"green"} />
-                </mesh>
+            <div
+              className='px-[24px] flex-1'
+              style={{ height: height === "300px" ? "400px" : "500px" }}>
+              <Canvas
+                shadows
+                raycaster={{ params: { Line: { threshold: 0.15 } } }}
+                camera={{ position: [-10, 10, 10], fov: 30 }}
+                id="objectScene"
+              >
+                <color attach="background" args={[objectMaster[0].sky_color]} />
+                <>
+                  <Grid
+                    args={[500, 500]}
+                    cellSize={1}
+                    sectionSize={5}
+                    cellColor={"yellow"}
+                    sectionThickness={1}
+                    cellThickness={0.5}
 
-                <ambientLight intensity={objectMaster[0].ambient_light} />
+                  />
+                  <mesh position={[0, 1, 0]}>
+                    <cylinderGeometry args={[0.5, 0.5, 1.5]} />
+                    <Outlines thickness={0.05} color="hotpink" />
+                    <meshNormalMaterial color={"green"} />
+                  </mesh>
+
+                  <ambientLight intensity={objectMaster[0].ambient_light} />
+                  {objectMaster.map((object) => {
+                    if (object.type === "object")
+                      return (
+                        <Model
+                          assetIdentifer={object.assetIdentifier}
+                          assetLink={object.assetLink}
+                          collision={object.collision}
+                          fixed={object.fixed}
+                          worldMatrix={object.worldMatrix}
+                          scaleFactor={object.scaleFactor}
+                          scaleFactorPivot={object.scaleFactorPivot}
+                        />
+                      );
+                    else return <></>;
+                  })}
+                </>
+
                 {objectMaster.map((object) => {
-                  if (object.type === "object")
+                  if (object.type === "light")
                     return (
-                      <Model
-                        assetIdentifer={object.assetIdentifier}
-                        assetLink={object.assetLink}
-                        collision={object.collision}
-                        fixed={object.fixed}
-                        worldMatrix={object.worldMatrix}
-                        scaleFactor={object.scaleFactor}
-                        scaleFactorPivot={object.scaleFactorPivot}
-                      />
+                      <>
+                        <Sphere
+                          scale={0.2}
+                          position={[
+                            object.position.x,
+                            object.position.y,
+                            object.position.z,
+                          ]}
+                        >
+                          <meshStandardMaterial color={object.color} />
+                        </Sphere>
+                        <pointLight
+                          key={object.assetIdentifier}
+                          position={[
+                            object.position.x,
+                            object.position.y,
+                            object.position.z,
+                          ]}
+                          intensity={object.intensity}
+                          color={object.color}
+                        />
+                      </>
                     );
                   else return <></>;
                 })}
-              </>
 
-              {objectMaster.map((object) => {
-                if (object.type === "light")
-                  return (
-                    <>
-                      <Sphere
-                        scale={0.2}
-                        position={[
-                          object.position.x,
-                          object.position.y,
-                          object.position.z,
-                        ]}
-                      >
-                        <meshStandardMaterial color={object.color} />
-                      </Sphere>
-                      <pointLight
-                        key={object.assetIdentifier}
-                        position={[
-                          object.position.x,
-                          object.position.y,
-                          object.position.z,
-                        ]}
-                        intensity={object.intensity}
-                        color={object.color}
-                      />
-                    </>
-                  );
-                else return <></>;
-              })}
+                <mesh scale={30} receiveShadow rotation={[-Math.PI / 2, 0, 0]}>
+                  <planeGeometry />
+                  <shadowMaterial transparent opacity={0.2} />
+                </mesh>
 
-              <mesh scale={30} receiveShadow rotation={[-Math.PI / 2, 0, 0]}>
-                <planeGeometry />
-                <shadowMaterial transparent opacity={0.2} />
-              </mesh>
-
-              <GizmoHelper alignment="bottom-right" margin={[100, 100]}>
-                <GizmoViewport labelColor="white" axisHeadScale={1} />
-              </GizmoHelper>
-              <OrbitControls makeDefault />
-            </Canvas>
+                <GizmoHelper alignment="bottom-right" margin={[100, 100]}>
+                  <GizmoViewport labelColor="white" axisHeadScale={1} />
+                </GizmoHelper>
+                <OrbitControls makeDefault />
+              </Canvas>
+            </div>
           </div>
 
           <div

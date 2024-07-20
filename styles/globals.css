@@ -40,10 +40,7 @@ body {
     )
     rgb(var(--background-start-rgb));
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 24px;
 }
 
 @layer utilities {
@@ -52,22 +49,22 @@ body {
   }
 }
 
-.standard-button{
-  background-color: rgb(32,33,36) !important;
+.standard-button {
+  background-color: rgb(32, 33, 36) !important;
   color: white !important;
 }
 
-.accordion-item{
+.accordion-item {
   border: none !important;
   border-bottom: 0.5px solid #555555 !important;
 }
 
-.standard-fbutton{
-  background-color: rgb(32,33,36) !important;
+.standard-fbutton {
+  background-color: rgb(32, 33, 36) !important;
   color: white !important;
 }
 
-.standard-background{
+.standard-background {
   background-color: #303134 !important;
   color: white !important;
 }
@@ -85,15 +82,15 @@ body {
   height: 100%;
 }
 
-.panel{
+.panel {
   background-color: #151520;
   color: white;
   padding: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
 
-.pointer { 
-  cursor: pointer; 
+.pointer {
+  cursor: pointer;
 }
 
 h1 {
